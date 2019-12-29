@@ -2,21 +2,15 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import SeasonDisplay from './SeasonDisplay';
 import Spinner from './Spinner';
+import useLocation from './useLocation';
 
 const App = () => {
-    //declare 2 pieces of state using useState
-    const [lat, setLat] = useState(null);
-    const [errorMessage, setErrorMessage] = useState('');
+    // const lat = useLocation()[0];
+    // const errorMessage = useLocation()[1];
+    // array destructuring shorthand
+    const [lat, errorMessage] = useLocation();
 
-    //useEffect 
-    useEffect(() => {
-        window.navigator.geolocation.getCurrentPosition(
-            position => setLat(position.coords.latitude),
-            err => setErrorMessage(err.message)
-        );
-    }, []); //empty array arg means run function only one time in total for the entire lifecycle of the component
-
-    let content;
+    let content;    
     if (errorMessage) { //if we have an error message
         content = <div>Error: {errorMessage}</div>;
     } else if (lat) { //else if we have a latitude
